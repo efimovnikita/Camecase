@@ -35,6 +35,14 @@
             <Button Content="Copy" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Func}"/>
         </StackPanel>
 
+        <StackPanel Orientation="Horizontal">
+            <ProgressBar IsVisible="{Binding ShowProgressBar}" Width="450" IsIndeterminate="True"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Status}"/>
+        </StackPanel>
+
     </StackPanel>
     
 </Window>

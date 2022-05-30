@@ -21,6 +21,9 @@ namespace Camecase.ViewModels
         private string _translatedResult = "";
         private string _camelForVarResult = "";
         private string _camelForFuncResult = "";
+        private bool _showProgressBar;
+        private string _status = "";
+        private Token? _token;
 
         public MainWindowViewModel()
         {
@@ -60,6 +63,18 @@ namespace Camecase.ViewModels
             set => this.RaiseAndSetIfChanged(ref _camelForFuncResult, value);
         }
 
+        public bool ShowProgressBar
+        {
+            get => _showProgressBar;
+            set => this.RaiseAndSetIfChanged(ref _showProgressBar, value);
+        }
+
+        public string Status
+        {
+            get => _status;
+            set => this.RaiseAndSetIfChanged(ref _status, value);
+        }
+
         public ReactiveCommand<Unit, Unit> TranslateCommand { get; set; }
         public ReactiveCommand<Unit, Unit> ClearAllCommand { get; set; }
 
@@ -67,21 +82,28 @@ namespace Camecase.ViewModels
 
         private async Task Translate()
         {
-            string token = await GetTokenFromCloud();
+            ShowProgressBar = true;
+            Token? token = await GetTokenFromCloud();
 
-            if (String.IsNullOrEmpty(token))
+            if (token is null)
             {
+                Status = "Failed to get a token";
+                ShowProgressBar = false;
                 return;
             }
             
-            string translatedText = await GetTranslationFromCloud(token);
+            string translatedText = await GetTranslationFromCloud(token.iamtoken);
 
             if (String.IsNullOrEmpty(translatedText))
             {
+                Status = "Couldn't get a text translation";
+                ShowProgressBar = false;
                 return;
             }
             
             TranslatedResult = translatedText;
+            Status = "Success";
+            ShowProgressBar = false;
         }
 
         private async Task<string> GetTranslationFromCloud(string token)
@@ -125,10 +147,15 @@ namespace Camecase.ViewModels
             }
         }
 
-        private static async Task<string> GetTokenFromCloud()
+        private async Task<Token?> GetTokenFromCloud()
         {
             try
             {
+                if (_token is not null && _token.expiresAt > DateTime.Now)
+                {
+                    return _token;
+                }
+
                 HttpClient httpClient = new();
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
@@ -144,17 +171,17 @@ namespace Camecase.ViewModels
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    return "";
+                    return null;
                 }
 
                 string stringContent = await response.Content.ReadAsStringAsync();
 
-                TokenResponse? tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringContent);
-                return tokenResponse != null ? tokenResponse.iamtoken : "";
+                _token = JsonConvert.DeserializeObject<Token>(stringContent);
+                return _token;
             }
             catch
             {
-                return "";
+                return null;
             }
         }
 
