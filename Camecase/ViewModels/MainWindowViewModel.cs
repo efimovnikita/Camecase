@@ -187,7 +187,8 @@ namespace Camecase.ViewModels
 
         private void ClearAll()
         {
-            InputPhrase = TranslatedResult = CamelForFuncResult = CamelForVarResult = "";
+            InputPhrase = TranslatedResult = CamelForFuncResult = CamelForVarResult = Status = "";
+            ShowProgressBar = false;
         }
 
         private static async Task Copy(string parameter)
