@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -68,7 +67,7 @@ namespace Camecase.ViewModels
 
         private async Task Translate()
         {
-            string token = await GetToken();
+            string token = await GetTokenFromCloud();
 
             if (String.IsNullOrEmpty(token))
             {
@@ -126,17 +125,37 @@ namespace Camecase.ViewModels
             }
         }
 
-        private static async Task<string> GetToken()
+        private static async Task<string> GetTokenFromCloud()
         {
-            const string path = "token.json";
-            if (!File.Exists(path))
+            try
+            {
+                HttpClient httpClient = new();
+                httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                TokenRequest request = new()
+                    { yandexPassportOauthToken = "AQAAAABhuvQPAATuwZzaVNP-2UihpLgtXgeYGIE" };
+
+                string json = JsonConvert.SerializeObject(request);
+
+                StringContent content = new(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response =
+                    await httpClient.PostAsync("https://iam.api.cloud.yandex.net/iam/v1/tokens", content);
+
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    return "";
+                }
+
+                string stringContent = await response.Content.ReadAsStringAsync();
+
+                TokenResponse? tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringContent);
+                return tokenResponse != null ? tokenResponse.iamtoken : "";
+            }
+            catch
             {
                 return "";
             }
-
-            string text = await File.ReadAllTextAsync(path);
-            TokenHolder? holder = JsonConvert.DeserializeObject<TokenHolder>(text);
-            return holder != null ? holder.Token : "";
         }
 
         private void ClearAll()
