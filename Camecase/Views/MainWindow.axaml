@@ -7,43 +7,57 @@
         Width="800" Height="450"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Camecase.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Camecase" WindowStartupLocation="CenterScreen">
+        Icon="/Assets/logo.ico"
+        Title="Camecase" WindowStartupLocation="CenterScreen"
+        x:Name="Window">
+    
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </Window.Styles>
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <StackPanel Spacing="20" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox Width="450" Watermark="Phrase" Text="{Binding InputPhrase}"/>
-            <Button Content="Translate phrase" Command="{Binding TranslateCommand}"/>
-            <Button Content="Clear all" Command="{Binding ClearAllCommand}"/>
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox x:Name="Translation" Width="450" Watermark="Translated text" Text="{Binding TranslatedResult}"/>
-            <Button Content="Copy translation" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Translation}"/>
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox x:Name="Variable" Width="450" Watermark="camelCaseForVariables" IsReadOnly="True" Text="{Binding CamelForVarResult}"/>
-            <Button Content="Copy camel casing" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Variable}"/>
-        </StackPanel>
-        
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <TextBox x:Name="Func" Width="450" Watermark="CamelCaseForMethods" IsReadOnly="True" Text="{Binding CamelForFuncResult}"/>
-            <Button Content="Copy pascal casing" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Func}"/>
-        </StackPanel>
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=Window}"/>
+            </MenuItem>
+        </Menu>
+        <Border Grid.Row="1" VerticalAlignment="Center">
+            <Image Source="/Assets/logo_transparent.png" Width="128" />
+        </Border>
+        <Border Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, 10"
+                  ColumnDefinitions="450, 5, 145, 5, 145">
+                <TextBox Watermark="Phrase" Text="{Binding InputPhrase}"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Translate phrase" Command="{Binding TranslateCommand}"/>
+                <Button Grid.Row="0" Grid.Column="4" Content="Clear all" Command="{Binding ClearAllCommand}"/>
+                
+                <TextBox Grid.Row="2" Grid.Column="0" x:Name="Translation" Watermark="Translated text" Text="{Binding TranslatedResult}"/>
+                <Button Grid.Row="2" Grid.Column="2" Content="Copy translation" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Translation}"/>
+                
+                <TextBox Grid.Row="4" Grid.Column="0" x:Name="Variable" Watermark="camelCaseForVariables" IsReadOnly="True" Text="{Binding CamelForVarResult}"/>
+                <Button Grid.Row="4" Grid.Column="2" Content="Copy camel casing" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Variable}"/>
 
-        <StackPanel Orientation="Horizontal">
-            <ProgressBar IsVisible="{Binding ShowProgressBar}" Width="450" IsIndeterminate="True"/>
-        </StackPanel>
+                <TextBox Grid.Row="6" Grid.Column="0" x:Name="Func" Watermark="CamelCaseForMethods" IsReadOnly="True" Text="{Binding CamelForFuncResult}"/>
+                <Button Grid.Row="6" Grid.Column="2" Content="Copy pascal casing" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Func}"/>
 
-        <StackPanel Orientation="Horizontal">
+                <ProgressBar HorizontalAlignment="Stretch" Grid.Row="8" Grid.Column="0" IsVisible="{Binding ShowProgressBar}" IsIndeterminate="True"/>
+            </Grid>
+        </Border>
+        <Border Grid.Row="3" Background="LightGray" Padding="10,3,3,3">
             <TextBlock Text="{Binding Status}"/>
-        </StackPanel>
-
-    </StackPanel>
+        </Border>
+    </Grid>
     
 </Window>

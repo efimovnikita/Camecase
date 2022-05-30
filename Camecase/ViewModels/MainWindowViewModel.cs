@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Camecase.Helpers;
 using Camecase.Models;
 using Newtonsoft.Json;
@@ -22,7 +23,7 @@ namespace Camecase.ViewModels
         private string _camelForVarResult = "";
         private string _camelForFuncResult = "";
         private bool _showProgressBar;
-        private string _status = "";
+        private string _status = "Ready";
         private Token? _token;
 
         public MainWindowViewModel()
@@ -30,6 +31,7 @@ namespace Camecase.ViewModels
             TranslateCommand = ReactiveCommand.CreateFromTask(Translate);
             ClearAllCommand = ReactiveCommand.Create(ClearAll);
             CopyCommand = ReactiveCommand.CreateFromTask<string>(Copy);
+            ExitCommand = ReactiveCommand.Create<Window>(Exit);
         }
 
         public string InputPhrase
@@ -77,11 +79,16 @@ namespace Camecase.ViewModels
 
         public ReactiveCommand<Unit, Unit> TranslateCommand { get; set; }
         public ReactiveCommand<Unit, Unit> ClearAllCommand { get; set; }
-
         public ReactiveCommand<string, Unit> CopyCommand { get; set; }
+        public ReactiveCommand<Window, Unit> ExitCommand { get; set; }
 
         private async Task Translate()
         {
+            if (String.IsNullOrEmpty(InputPhrase))
+            {
+                return;
+            }
+            
             ShowProgressBar = true;
             Token? token = await GetTokenFromCloud();
 
@@ -187,13 +194,19 @@ namespace Camecase.ViewModels
 
         private void ClearAll()
         {
-            InputPhrase = TranslatedResult = CamelForFuncResult = CamelForVarResult = Status = "";
+            InputPhrase = TranslatedResult = CamelForFuncResult = CamelForVarResult = "";
+            Status = "Ready";
             ShowProgressBar = false;
         }
 
         private static async Task Copy(string parameter)
         {
             await Application.Current.Clipboard.SetTextAsync(parameter);
+        }
+
+        private static void Exit(Window window)
+        {
+            window.Close();
         }
     }
 }
