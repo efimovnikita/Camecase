@@ -14,7 +14,7 @@
     <Window.Styles>
         <Style Selector="Button">
             <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="BorderBrush" Value="#666666" />
+            <Setter Property="BorderBrush" Value="#413f40" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -22,14 +22,18 @@
         </Style>
         <Style Selector="Button:pointerover/template/ContentPresenter">
             <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="BorderBrush" Value="#292b2c" />
+            <Setter Property="BorderBrush" Value="#413f40" />
             <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Background" Value="#97ada2" />
+            <Setter Property="Background" Value="#a7b7f1" />
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="CornerRadius" Value="0"/>
         </Style>
         <Style Selector="TextBox">
             <Setter Property="CornerRadius" Value="0" />
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="#244bdb" />
+            <Setter Property="BorderThickness" Value="1" />
         </Style>
     </Window.Styles>
 
@@ -52,45 +56,45 @@
                 <TextBox Watermark="Phrase" Text="{Binding InputPhrase}" x:Name="InputBox"/>
                 <Button Grid.Row="0" Grid.Column="2" Command="{Binding TranslateCommand}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#292b2c" ToolTip.Tip="Translate"/>
+                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#413f40" ToolTip.Tip="Translate"/>
                     </Button.Content>
                 </Button>
                 <Button Grid.Row="0" Grid.Column="4" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=InputBox}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#292b2c" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
                     </Button.Content>
                 </Button>
                 <Button Grid.Row="0" Grid.Column="6" Command="{Binding ClearAllCommand}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="#292b2c" ToolTip.Tip="Clear all"/>
+                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="#413f40" ToolTip.Tip="Clear all"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="2" Grid.Column="0" x:Name="Translation" Watermark="Translated text" Text="{Binding TranslatedResult}"/>
                 <Button Grid.Row="2" Grid.Column="2" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Translation}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#292b2c" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="4" Grid.Column="0" x:Name="Variable" Watermark="camelCase" IsReadOnly="True" Text="{Binding CamelForVarResult}"/>
                 <Button Grid.Row="4" Grid.Column="2" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Variable}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#292b2c" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="6" Grid.Column="0" x:Name="Func" Watermark="PascalCase" IsReadOnly="True" Text="{Binding CamelForFuncResult}"/>
                 <Button Grid.Row="6" Grid.Column="2" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Func}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#292b2c" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
                     </Button.Content>
                 </Button>
 
-                <ProgressBar HorizontalAlignment="Stretch" Grid.Row="8" Grid.Column="0" IsVisible="{Binding ShowProgressBar}" IsIndeterminate="True"/>
+                <ProgressBar Foreground="#708ae8" HorizontalAlignment="Stretch" Grid.Row="8" Grid.Column="0" IsVisible="{Binding ShowProgressBar}" IsIndeterminate="True"/>
             </Grid>
         </Border>
-        <Border Grid.Row="3" Background="LightGray" Padding="10,3,3,3">
+        <Border Grid.Row="3" Background="#e9edfb" Padding="10,3,3,3">
             <TextBlock Text="{Binding Status}"/>
         </Border>
     </Grid>
