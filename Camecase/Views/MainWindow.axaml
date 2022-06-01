@@ -44,7 +44,7 @@
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=Window}"/>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=Window}" HotKey="Escape"/>
             </MenuItem>
         </Menu>
         <Border Grid.Row="1" VerticalAlignment="Center">
@@ -54,7 +54,7 @@
             <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, 10"
                   ColumnDefinitions="550, 10, Auto, 10, Auto, 10, Auto">
                 <TextBox Watermark="Phrase" Text="{Binding InputPhrase}" x:Name="InputBox"/>
-                <Button Grid.Row="0" Grid.Column="2" Command="{Binding TranslateCommand}">
+                <Button Grid.Row="0" Grid.Column="2" Command="{Binding TranslateCommand}" HotKey="Enter">
                     <Button.Content>
                         <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#413f40" ToolTip.Tip="Translate"/>
                     </Button.Content>
