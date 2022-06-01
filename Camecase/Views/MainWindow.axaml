@@ -81,7 +81,7 @@
             <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, 10"
                   ColumnDefinitions="550, 10, Auto, 10, Auto, 10, Auto">
                 <TextBox Watermark="Phrase" Text="{Binding InputPhrase}" x:Name="InputBox"/>
-                <Button Grid.Row="0" Classes="TranslateBtn" Grid.Column="2" Command="{Binding TranslateCommand}" HotKey="Enter">
+                <Button Grid.Row="0" Classes="TranslateBtn" Grid.Column="2" Command="{Binding TranslateCommand}" HotKey="Ctrl + Enter">
                     <Button.Content>
                         <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#413f40" ToolTip.Tip="Translate"/>
                     </Button.Content>
