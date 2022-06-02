@@ -32,7 +32,14 @@
             <Setter Property="Content">
                 <Setter.Value>
                     <Template>
-                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="White" ToolTip.Tip="Translate"/>
+                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="White">
+                            <ToolTip.Tip>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock>Translate</TextBlock>
+                                    <TextBlock Foreground="Gray">(Ctrl + T)</TextBlock>
+                                </StackPanel>
+                            </ToolTip.Tip>
+                        </PathIcon>
                     </Template>
                 </Setter.Value>
             </Setter>
@@ -50,7 +57,14 @@
             <Setter Property="Content">
                 <Setter.Value>
                     <Template>
-                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="White" ToolTip.Tip="Clear all"/>
+                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="White">
+                            <ToolTip.Tip>
+                                <StackPanel Orientation="Horizontal" Spacing="5">
+                                    <TextBlock>Clear all</TextBlock>
+                                    <TextBlock Foreground="Gray">(Ctrl + E)</TextBlock>
+                                </StackPanel>
+                            </ToolTip.Tip>
+                        </PathIcon>
                     </Template>
                 </Setter.Value>
             </Setter>
@@ -71,7 +85,14 @@
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=Window}" HotKey="Escape"/>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" CommandParameter="{Binding ElementName=Window}" HotKey="Escape">
+                    <ToolTip.Tip>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <TextBlock>Exit</TextBlock>
+                            <TextBlock Foreground="Gray">(Escape)</TextBlock>
+                        </StackPanel>
+                    </ToolTip.Tip>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <Border Grid.Row="1" VerticalAlignment="Center">
@@ -81,40 +102,40 @@
             <Grid RowDefinitions="Auto, 10, Auto, 10, Auto, 10, Auto, 10, 10"
                   ColumnDefinitions="550, 10, Auto, 10, Auto, 10, Auto">
                 <TextBox Watermark="Phrase" Text="{Binding InputPhrase}" x:Name="InputBox"/>
-                <Button Grid.Row="0" Classes="TranslateBtn" Grid.Column="2" Command="{Binding TranslateCommand}" HotKey="Ctrl + Enter">
+                <Button Grid.Row="0" Classes="TranslateBtn" Grid.Column="2" Command="{Binding TranslateCommand}" HotKey="Ctrl + T">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#413f40" ToolTip.Tip="Translate"/>
+                        <PathIcon Data="{StaticResource ResourceKey=translate_regular}" Foreground="#413f40" />
                     </Button.Content>
                 </Button>
                 <Button Grid.Row="0" Classes="CopyBtn" Grid.Column="4" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=InputBox}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40"/>
                     </Button.Content>
                 </Button>
-                <Button Grid.Row="0" Classes="ClearBtn" Grid.Column="6" Command="{Binding ClearAllCommand}">
+                <Button Grid.Row="0" Classes="ClearBtn" Grid.Column="6" Command="{Binding ClearAllCommand}" HotKey="Ctrl + E">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="#413f40" ToolTip.Tip="Clear all"/>
+                        <PathIcon Data="{StaticResource ResourceKey=text_clear_formatting_regular}" Foreground="#413f40"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="2" Grid.Column="0" x:Name="Translation" Watermark="Translated text" Text="{Binding TranslatedResult}"/>
                 <Button Grid.Row="2" Grid.Column="2" Classes="CopyBtn" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Translation}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="4" Grid.Column="0" x:Name="Variable" Watermark="camelCase" IsReadOnly="True" Text="{Binding CamelForVarResult}"/>
                 <Button Grid.Row="4" Grid.Column="2" Classes="CopyBtn" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Variable}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40"/>
                     </Button.Content>
                 </Button>
 
                 <TextBox Grid.Row="6" Grid.Column="0" x:Name="Func" Watermark="PascalCase" IsReadOnly="True" Text="{Binding CamelForFuncResult}"/>
                 <Button Grid.Row="6" Grid.Column="2" Classes="CopyBtn" Command="{Binding CopyCommand}" CommandParameter="{Binding Text, ElementName=Func}">
                     <Button.Content>
-                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40" ToolTip.Tip="Copy"/>
+                        <PathIcon Data="{StaticResource ResourceKey=copy_move_regular}" Foreground="#413f40"/>
                     </Button.Content>
                 </Button>
 
